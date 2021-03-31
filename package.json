@@ -7,11 +7,15 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "^6.0.1",
+    "@types/lowdb": "^1.0.9",
     "ant-design-vue": "^2.1.2",
+    "lowdb": "^1.0.0",
     "sass": "^1.32.8",
     "vue": "^3.0.9",
     "vue-i18n": "^9.0.0",
-    "vue-router": "4"
+    "vue-router": "4",
+    "vuex": "^4.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.1.5",

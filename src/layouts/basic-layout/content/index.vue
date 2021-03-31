@@ -1,7 +1,7 @@
 <template>
-    <div>
-        {{ $t("home.hello") }}
-    </div>
+    <ALayoutContent>
+        <RouterView></RouterView>
+    </ALayoutContent>
 </template>
 
 <script lang="ts">

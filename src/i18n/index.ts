@@ -1,17 +1,15 @@
 import { LocaleMessages } from '@intlify/core-base';
-import { VueMessageType } from 'vue-i18n';
+import { createI18n, VueMessageType } from 'vue-i18n';
+import zhCN from './zh-CN';
+import enUS from './en-US';
 
-const messages: LocaleMessages<VueMessageType> = {
-    zh: {
-        message: {
-            hello: 'Hello Index!'
-        }
-    },
-    en: {
-        message: {
-            hello: 'Hello Index!'
-        }
-    }
+export const messages: LocaleMessages<VueMessageType> = {
+    'zh-CN': zhCN,
+    'en-US': enUS
 };
 
-export default messages;
+export default createI18n({
+    locale: 'zh-CN',
+    falllbackLocale: 'en-US',
+    messages
+});

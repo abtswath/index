@@ -1,6 +1,6 @@
 <template>
-    <div>
-        {{ $t("home.hello") }}
+    <div class="logo">
+        Index
     </div>
 </template>
 
@@ -11,3 +11,10 @@
         setup() {},
     });
 </script>
+
+<style lang="sass" scoped>
+.logo 
+    font-size: 20px
+    float: left
+    background: rgba(255,255,255,.3)
+</style>
