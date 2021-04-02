@@ -1,7 +1,15 @@
 import VueRouter from 'vue-router';
 import BasicLayout from '@/layouts/basic-layout/index.vue';
 
-const frameRoutes: VueRouter.RouteRecordRaw[] = [
+const frameOutRoutes: VueRouter.RouteRecordRaw[] = [
+    {
+        path: '/login',
+        name: 'login',
+        component: () => import('@/views/account/login.vue')
+    }
+];
+
+const frameInRoutes: VueRouter.RouteRecordRaw[] = [
     {
         path: '/',
         component: BasicLayout,
@@ -27,7 +35,8 @@ const frameRoutes: VueRouter.RouteRecordRaw[] = [
 
 
 const routes: VueRouter.RouteRecordRaw[] = [
-    ...frameRoutes
+    ...frameOutRoutes,
+    ...frameInRoutes
 ];
 
 export default routes;

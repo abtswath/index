@@ -2,6 +2,7 @@ import { LocaleMessages } from '@intlify/core-base';
 import { createI18n, VueMessageType } from 'vue-i18n';
 import zhCN from './zh-CN';
 import enUS from './en-US';
+import config from '@/config';
 
 export const messages: LocaleMessages<VueMessageType> = {
     'zh-CN': zhCN,
@@ -9,7 +10,7 @@ export const messages: LocaleMessages<VueMessageType> = {
 };
 
 export default createI18n({
-    locale: 'zh-CN',
-    falllbackLocale: 'en-US',
+    locale: config.defaultLocale,
+    falllbackLocale: config.fallbackLocale,
     messages
 });

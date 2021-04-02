@@ -1,8 +1,8 @@
 <template>
-    <div style="float: left;">
+    <div class="float-left">
         <ADropdown>
-            <div style="display: flex; align-items: center; cursor: pointer">
-                <AAvatar :size="36" style="display: block; margin-right: 8px">
+            <div class="flex-middle pointer">
+                <AAvatar :size="36" style="display: block" class="mr-8">
                     <template #icon><UserOutlined /></template>
                 </AAvatar>
                 <span style="margin-right: 4px">admin</span>
@@ -23,8 +23,15 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent } from "vue";
-    import { UserOutlined, DownOutlined, ProjectOutlined, FileTextOutlined, DesktopOutlined, LogoutOutlined } from "@ant-design/icons-vue";
+    import { defineComponent } from 'vue';
+    import {
+        UserOutlined,
+        DownOutlined,
+        ProjectOutlined,
+        FileTextOutlined,
+        DesktopOutlined,
+        LogoutOutlined,
+    } from '@ant-design/icons-vue';
 
     export default defineComponent({
         components: {
@@ -33,39 +40,42 @@
             ProjectOutlined,
             FileTextOutlined,
             DesktopOutlined,
-            LogoutOutlined
+            LogoutOutlined,
         },
         setup() {},
         data() {
-            return {
-                menu: [
+            return {};
+        },
+        computed: {
+            menu() {
+                return [
                     {
-                        label: "个人中心",
+                        label: this.$t('header.user.profile'),
                         icon: UserOutlined,
                         event: () => {},
                     },
                     {
-                        label: "我的项目",
+                        label: this.$t('header.user.projects'),
                         icon: ProjectOutlined,
                         event: () => {},
                     },
                     {
-                        label: "我的文章",
+                        label: this.$t('header.user.articles'),
                         icon: FileTextOutlined,
                         event: () => {},
                     },
                     {
-                        label: "管理后台",
+                        label: this.$t('header.user.management'),
                         icon: DesktopOutlined,
                         event: () => {},
                     },
                     {
-                        label: "退出登录",
+                        label: this.$t('header.user.logout'),
                         icon: LogoutOutlined,
                         event: () => {},
                     },
-                ],
-            };
+                ];
+            },
         },
     });
 </script>

@@ -1,42 +1,16 @@
 <template>
-    <div style="float: left; margin-right: 16px">
-        <AButton @click="changeLocale">
-            {{ currentLocaleLabel }}
-        </AButton>
+    <div class="float-left mr-16">
+        <LocaleSelector />
     </div>
 </template>
 
 <script lang="ts">
-    import { defineComponent } from "vue";
-    import { mapState } from "vuex";
+    import { defineComponent } from 'vue';
+    import { LocaleSelector } from '@/components';
 
     export default defineComponent({
-        data() {
-            return {
-                locales: {
-                    zh: {
-                        label: "English",
-                    },
-                    en: {
-                        label: "中文",
-                    },
-                },
-            };
-        },
-        computed: {
-            ...mapState("i18n", ["locale"]),
-            currentLocaleLabel() {
-                return this.locale === 'zh-CN' ? 'English' : '中文';
-            }
-        },
-        methods: {
-            changeLocale() {
-                let locale = "en-US";
-                if (this.locale === "en-US") {
-                    locale = "zh-CN";
-                }
-                this.$store.dispatch("i18n/setLocale", locale);
-            },
+        components: {
+            LocaleSelector,
         },
     });
 </script>

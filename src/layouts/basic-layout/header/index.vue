@@ -3,7 +3,7 @@
         <Logo />
         <Menu />
         <Search />
-        <div style="float: right">
+        <div class="float-right">
             <I18n />
             <User />
         </div>
@@ -11,12 +11,12 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent } from "vue";
-    import Logo from "../logo/index.vue";
-    import Menu from "../menu/index.vue";
-    import Search from "../search/index.vue";
-    import I18n from "../i18n/index.vue";
-    import User from "../user/index.vue";
+    import { defineComponent } from 'vue';
+    import Logo from '../logo/index.vue';
+    import Menu from '../menu/index.vue';
+    import Search from '../search/index.vue';
+    import I18n from '../i18n/index.vue';
+    import User from '../user/index.vue';
 
     export default defineComponent({
         components: {
