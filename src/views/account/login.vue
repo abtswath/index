@@ -32,7 +32,12 @@
                 />
             </AFormItem>
             <AFormItem class="mb-0">
-                <AButton htmlType="submit" block type="primary">
+                <AButton
+                    htmlType="submit"
+                    block
+                    type="primary"
+                    :loading="loading"
+                >
                     {{ t('account.login.button') }}
                 </AButton>
             </AFormItem>
@@ -45,11 +50,9 @@
     import { useForm } from '@ant-design-vue/use';
     import { useI18n } from 'vue-i18n';
     import { LocaleSelector } from '@/components';
-
-    interface LoginForm {
-        username: string;
-        password: string;
-    }
+    import { useLoading } from '@/composables';
+    import { useRouter } from 'vue-router';
+    import { LoginForm, AccountService } from '@/services';
 
     export default defineComponent({
         components: {
@@ -83,11 +86,17 @@
             const { validate, validateInfos } = useForm(loginForm, rules);
 
             const formRef = ref();
+            const { loading, task } = useLoading(AccountService.login);
+            const router = useRouter();
 
             const handleSubmit = () => {
                 validate()
                     .then(() => {
-                        console.log(toRaw(loginForm));
+                        task(loginForm)
+                            .then(() => {
+                                router.push('/');
+                            })
+                            .catch(() => {});
                     })
                     .catch(() => {});
             };
@@ -100,6 +109,7 @@
                 handleSubmit,
                 validate,
                 t,
+                loading,
             };
         },
     });
