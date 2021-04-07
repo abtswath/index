@@ -9,9 +9,7 @@ import Axios, {
     Canceler,
     AxiosPromise
 } from 'axios';
-import { useRouter } from 'vue-router';
-
-const router = useRouter();
+import router from '@/router';
 
 export interface Response {
     message: string;
@@ -91,7 +89,7 @@ class Request {
             },
             (error: AxiosError<Response>) => {
                 if (error.response?.status === 401) {
-                    if (router.currentRoute.value.name !== 'login') {
+                    if (window.location.pathname !== '/login') {
                         router.push({ name: 'login' });
                     }
                     this.cancelAll();

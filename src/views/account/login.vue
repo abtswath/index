@@ -92,7 +92,7 @@
             const handleSubmit = () => {
                 validate()
                     .then(() => {
-                        task(loginForm)
+                        task(toRaw(loginForm))
                             .then(() => {
                                 router.push('/');
                             })
