@@ -1,0 +1,102 @@
+.center {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@directionList: left, right;
+
+each(@directionList, .(@direction) {
+    .float-@{direction} {
+        float: @direction;
+    }
+});
+
+.flex {
+    display: flex;
+}
+
+.flex-middle {
+    align-items: center;
+}
+
+.flex-center {
+    justify-content: center;
+}
+
+.flex-middle {
+    .flex();
+    .flex-middle();
+}
+
+.flex-center {
+    .flex();
+    .flex-center();
+}
+
+.flex-center-middle {
+    .flex();
+    .flex-middle();
+    .flex-center();
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.flex-justify-between {
+    .flex();
+    .flex-middle();
+    .justify-between();
+}
+
+@textDirections: center, left, right;
+
+each(@textDirections, {
+    .text-@{value} {
+        text-align: @value;
+    }
+});
+
+.block-center {
+    margin: auto;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.mpType() {
+    m: margin;
+    p: padding;
+}
+
+.mpDirection() {
+    t: -top;
+    r: -right;
+    b: -bottom;
+    l: -left;
+}
+
+@mpSize: 0, 8, 16;
+
+each(.mpType(), .(@type, @prefix) {
+    each(.mpDirection(), .(@direction, @suffix) {
+        .@{prefix}@{suffix} {
+            @{type}@{direction}: 8px!important;
+        }
+    });
+    each(@mpSize, {
+        .@{prefix}-@{value} {
+            @{type}: @value + 0px!important;
+        }
+        each(.mpDirection(), .(@direction, @suffix) {
+            .@{prefix}@{suffix}-@{value} {
+                @{type}@{direction}: @value + 0px!important;
+            }
+        });
+    });
+});

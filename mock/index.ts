@@ -1,39 +1,4 @@
-import { MockTemplate, Request } from '../plugins/vite-plugin-mock';
+import Account from './modules/account';
+import Projects from './modules/project';
 
-export default [
-    {
-        url: '/api/login',
-        method: 'POST',
-        handle: ({ body }: Request) => {
-            if (body?.username !== 'admin' || body?.password !== '123456') {
-                return {
-                    statusCode: 400,
-                    data: {
-                        data: '',
-                        message: '用户名或密码错误'
-                    }
-                };
-            }
-            return {
-                statusCode: 200,
-                data: {
-                    data: '',
-                    message: 'success'
-                }
-            };
-        }
-    },
-    {
-        url: '/api/login',
-        method: 'GET',
-        handle: () => {
-            return {
-                statusCode: 401,
-                data: {
-                    data: '',
-                    message: 'unauthorized'
-                }
-            };
-        }
-    }
-] as MockTemplate[];
+export default [...Account, ...Projects];

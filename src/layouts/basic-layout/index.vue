@@ -21,9 +21,11 @@
         beforeRouteEnter(to, from, next) {
             AccountService.checkLogin()
                 .then(() => {
-                    next({ name: 'login' });
+                    next();
                 })
-                .catch(() => {});
+                .catch(() => {
+                    next({ name: 'login' });
+                });
         },
         setup() {},
     });

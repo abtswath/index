@@ -29,28 +29,6 @@
         components: {
             GlobalOutlined,
         },
-        // data() {
-        //     return {
-        //         locales: [
-        //             {
-        //                 locale: 'zh-CN',
-        //                 label: '中文',
-        //             },
-        //             {
-        //                 locale: 'en-US',
-        //                 label: 'English',
-        //             },
-        //         ],
-        //     };
-        // },
-        // computed: {
-        //     ...mapState('i18n', ['locale']),
-        // },
-        // methods: {
-        //     changeLocale(locale: Locale) {
-        //         this.$store.dispatch('i18n/setLocale', locale);
-        //     },
-        // },
         setup() {
             const store = useStore();
 

@@ -169,7 +169,7 @@
     });
 </script>
 
-<style lang="scss">
+<style lang="less">
     .login-brand {
         padding: 32px 0;
     }
@@ -198,7 +198,7 @@
                 width: 100%;
             }
         }
-        .captcha-img {
+        &-img {
             padding: 4px 0;
             height: 40px;
             img {

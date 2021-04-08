@@ -17,6 +17,13 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
             alias: {
                 '@': path.resolve(__dirname, './src')
             }
+        },
+        css: {
+            preprocessorOptions: {
+                less: {
+                    javascriptEnabled: true
+                }
+            }
         }
     };
 };

@@ -59,7 +59,7 @@
     });
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
     .menu {
         height: 64px;
         margin: 0 24px;

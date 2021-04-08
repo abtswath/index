@@ -5,8 +5,7 @@ import store from './store';
 import router from '@/router';
 import i18n from '@/i18n';
 
-import 'ant-design-vue/dist/antd.css';
-import '@/styles/index.scss';
+import '@/styles/index.less';
 
 import App from './App.vue';
 import config from './config';

@@ -10,7 +10,7 @@
     });
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
     .logo {
         font-size: 20px;
         background: rgba(255, 255, 255, 0.3);

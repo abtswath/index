@@ -10,10 +10,11 @@ import Axios, {
     AxiosPromise
 } from 'axios';
 import router from '@/router';
+import config from '@/config';
 
-export interface Response {
+export interface Response<T> {
     message: string;
-    data: any;
+    data: T;
     ignore?: boolean;
 }
 
@@ -29,6 +30,7 @@ class Request {
     static getInstance(): Request {
         if (!this._instance) {
             this._instance = new Request({
+                baseURL: config.apiBaseURL,
                 timeout: 30000,
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'
@@ -84,10 +86,10 @@ class Request {
 
     protected responseHook(): void {
         this.axiosInstance.interceptors.response.use(
-            (response: AxiosResponse<Response>) => {
+            (response: AxiosResponse<Response<any>>) => {
                 return response;
             },
-            (error: AxiosError<Response>) => {
+            (error: AxiosError<Response<any>>) => {
                 if (error.response?.status === 401) {
                     if (window.location.pathname !== '/login') {
                         router.push({ name: 'login' });
@@ -126,77 +128,77 @@ class Request {
         return Axios.getUri(config);
     }
 
-    protected packagingAxiosPromise(
-        promise: AxiosPromise<Response>
-    ): Promise<Response> {
+    protected packagingAxiosPromise<T>(
+        promise: AxiosPromise<Response<T>>
+    ): Promise<Response<T>> {
         return new Promise((resolve, reject) => {
             promise
                 .then((response) => {
                     resolve(response.data);
                 })
-                .catch((error: AxiosError<Response>) => {
+                .catch((error: AxiosError<Response<T>>) => {
                     reject(error.response?.data);
                 });
         });
     }
 
-    request(config: AxiosRequestConfig): Promise<Response> {
+    request<T>(config: AxiosRequestConfig): Promise<Response<T>> {
         return this.packagingAxiosPromise(
-            this.axiosInstance.request<Response>(config)
+            this.axiosInstance.request<Response<T>>(config)
         );
     }
 
-    get(url: string, config?: AxiosRequestConfig): Promise<Response> {
+    get<T>(url: string, config?: AxiosRequestConfig): Promise<Response<T>> {
         return this.packagingAxiosPromise(
-            this.axiosInstance.get<Response>(url, config)
+            this.axiosInstance.get<Response<T>>(url, config)
         );
     }
 
-    delete(url: string, config?: AxiosRequestConfig): Promise<Response> {
+    delete<T>(url: string, config?: AxiosRequestConfig): Promise<Response<T>> {
         return this.packagingAxiosPromise(
-            this.axiosInstance.delete<Response>(url, config)
+            this.axiosInstance.delete<Response<T>>(url, config)
         );
     }
 
-    head(url: string, config?: AxiosRequestConfig): Promise<Response> {
+    head<T>(url: string, config?: AxiosRequestConfig): Promise<Response<T>> {
         return this.packagingAxiosPromise(
-            this.axiosInstance.head<Response>(url, config)
+            this.axiosInstance.head<Response<T>>(url, config)
         );
     }
 
-    options(url: string, config?: AxiosRequestConfig): Promise<Response> {
+    options<T>(url: string, config?: AxiosRequestConfig): Promise<Response<T>> {
         return this.packagingAxiosPromise(
-            this.axiosInstance.options<Response>(url, config)
+            this.axiosInstance.options<Response<T>>(url, config)
         );
     }
 
-    post(
+    post<T>(
         url: string,
         data?: any,
         config?: AxiosRequestConfig
-    ): Promise<Response> {
+    ): Promise<Response<T>> {
         return this.packagingAxiosPromise(
-            this.axiosInstance.post<Response>(url, data, config)
+            this.axiosInstance.post<Response<T>>(url, data, config)
         );
     }
 
-    put(
+    put<T>(
         url: string,
         data?: any,
         config?: AxiosRequestConfig
-    ): Promise<Response> {
+    ): Promise<Response<T>> {
         return this.packagingAxiosPromise(
-            this.axiosInstance.put<Response>(url, data, config)
+            this.axiosInstance.put<Response<T>>(url, data, config)
         );
     }
 
-    patch(
+    patch<T>(
         url: string,
         data?: any,
         config?: AxiosRequestConfig
-    ): Promise<Response> {
+    ): Promise<Response<T>> {
         return this.packagingAxiosPromise(
-            this.axiosInstance.patch<Response>(url, data, config)
+            this.axiosInstance.patch<Response<T>>(url, data, config)
         );
     }
 
