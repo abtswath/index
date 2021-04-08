@@ -14,22 +14,50 @@
             :wrapper-col="{ span: 24 }"
             :colon="false"
             @submit="handleSubmit"
-            :model="loginForm"
+            :model="form"
         >
-            <AFormItem v-bind="validateInfos.username">
+            <AFormItem name="username" v-bind="validateInfos.username">
                 <AInput
                     @blur="validate('username').catch(() => {})"
                     :placeholder="t('account.login.username.label')"
-                    v-model:value="loginForm.username"
+                    v-model:value="form.username"
                 />
             </AFormItem>
             <AFormItem v-bind="validateInfos.password">
                 <AInput
                     @blur="validate('password').catch(() => {})"
                     :placeholder="t('account.login.password.label')"
-                    v-model:value="loginForm.password"
+                    v-model:value="form.password"
                     type="password"
                 />
+            </AFormItem>
+            <AFormItem v-bind="validateInfos.captcha">
+                <div class="captcha">
+                    <div>
+                        <AInput
+                            @blur="validate('captcha').catch(() => {})"
+                            :placeholder="t('account.login.captcha.label')"
+                            v-model:value="form.captcha"
+                        />
+                    </div>
+                    <div class="captcha-img ml-16">
+                        <img
+                            @click="handleCaptchaRefresh"
+                            src="@/assets/captcha.jpg"
+                            alt=""
+                        />
+                    </div>
+                </div>
+            </AFormItem>
+            <AFormItem class="mb-0">
+                <div class="flex-justify-between">
+                    <ACheckbox v-model:checked="form.remember">
+                        {{ t('account.login.remember') }}
+                    </ACheckbox>
+                    <RouterLink :to="{ name: 'password_reset' }">
+                        {{ t('account.login.forgotPassword') }}
+                    </RouterLink>
+                </div>
             </AFormItem>
             <AFormItem class="mb-0">
                 <AButton
@@ -46,7 +74,14 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent, reactive, ref, toRaw, UnwrapRef } from 'vue';
+    import {
+        computed,
+        defineComponent,
+        reactive,
+        ref,
+        toRaw,
+        UnwrapRef,
+    } from 'vue';
     import { useForm } from '@ant-design-vue/use';
     import { useI18n } from 'vue-i18n';
     import { LocaleSelector } from '@/components';
@@ -61,29 +96,46 @@
         setup() {
             const { t } = useI18n();
 
-            const loginForm: UnwrapRef<LoginForm> = reactive({
+            const captcha = ref('@/assets/captcha.jpg');
+
+            const handleCaptchaRefresh = () => {
+                captcha.value = `@/assets/captcha.jpg?t=${new Date().getTime()}`;
+            };
+
+            const form: UnwrapRef<LoginForm> = reactive({
                 username: '',
                 password: '',
+                captcha: '',
+                remember: false,
             });
 
             const rules = reactive({
                 username: [
                     {
                         required: true,
-                        message: t('account.login.username.empty'),
+                        message: computed(() => t('account.login.username.empty')),
                         trigger: 'blur',
                     },
                 ],
                 password: [
                     {
                         required: true,
-                        message: t('account.login.password.empty'),
+                        message: computed(() => t('account.login.password.empty')),
+                        trigger: 'blur',
+                    },
+                ],
+                captcha: [
+                    {
+                        required: true,
+                        message: computed(() => t('account.login.captcha.empty')),
                         trigger: 'blur',
                     },
                 ],
             });
 
-            const { validate, validateInfos } = useForm(loginForm, rules);
+            const { validate, validateInfos } = useForm(form, rules, {
+                validateOnRuleChange: true,
+            });
 
             const formRef = ref();
             const { loading, task } = useLoading(AccountService.login);
@@ -92,7 +144,7 @@
             const handleSubmit = () => {
                 validate()
                     .then(() => {
-                        task(toRaw(loginForm))
+                        task(toRaw(form))
                             .then(() => {
                                 router.push('/');
                             })
@@ -102,7 +154,7 @@
             };
 
             return {
-                loginForm,
+                form,
                 rules,
                 formRef,
                 validateInfos,
@@ -110,6 +162,8 @@
                 validate,
                 t,
                 loading,
+                captcha,
+                handleCaptchaRefresh,
             };
         },
     });
@@ -120,13 +174,37 @@
         padding: 32px 0;
     }
     .login-card {
-        max-width: 300px;
+        max-width: 350px;
         width: 90%;
         background: #f6f8fa;
+        .ant-form-item {
+            margin-bottom: 20px;
+        }
+        .ant-form-item-with-help {
+            margin-bottom: 0;
+        }
     }
     .languages {
         position: absolute;
         top: 2%;
         right: 4%;
+    }
+    .captcha {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        div {
+            &:first-child {
+                width: 100%;
+            }
+        }
+        .captcha-img {
+            padding: 4px 0;
+            height: 40px;
+            img {
+                height: 32px;
+                vertical-align: text-bottom;
+            }
+        }
     }
 </style>

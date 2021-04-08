@@ -13,6 +13,12 @@ const account: LocaleMessageDictionary<VueMessageType> = {
             label: '密码',
             empty: '请输入密码'
         },
+        captcha: {
+            label: '验证码',
+            empty: '请输入验证码'
+        },
+        remember: '保持登录',
+        forgotPassword: '忘记密码？'
     }
 };
 

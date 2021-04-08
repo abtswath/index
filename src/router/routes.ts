@@ -6,6 +6,11 @@ const frameOutRoutes: VueRouter.RouteRecordRaw[] = [
         path: '/login',
         name: 'login',
         component: () => import('@/views/account/login.vue')
+    },
+    {
+        path: '/password_reset',
+        name: 'password_reset',
+        component: () => BasicLayout
     }
 ];
 
@@ -32,7 +37,6 @@ const frameInRoutes: VueRouter.RouteRecordRaw[] = [
         ]
     }
 ];
-
 
 const routes: VueRouter.RouteRecordRaw[] = [
     ...frameOutRoutes,

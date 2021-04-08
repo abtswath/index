@@ -41,6 +41,12 @@
     @include flexCenter();
 }
 
+.flex-justify-between {
+    @extend .flex;
+    @include flexMiddle();
+    justify-content: space-between;
+}
+
 @each $position in center, left, right {
     .text-#{$position} {
         text-align: $position;
@@ -50,7 +56,6 @@
 .block-center {
     margin: auto;
 }
-
 
 .pointer {
     cursor: pointer;
