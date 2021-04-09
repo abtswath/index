@@ -9,7 +9,7 @@ interface Project {
 export { Project };
 
 export default {
-    getProjects<T>() {
-        return request.get<T>('/projects');
+    getProjects() {
+        return request.get<Project[]>('/projects');
     }
 };

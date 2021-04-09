@@ -1,4 +1,5 @@
 import Account from './modules/account';
-import Projects from './modules/project';
+import Project from './modules/project';
+import Article from './modules/article';
 
-export default [...Account, ...Projects];
+export default [...Account, ...Project, ...Article];

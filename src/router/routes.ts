@@ -27,7 +27,7 @@ const frameInRoutes: VueRouter.RouteRecordRaw[] = [
             {
                 path: 'articles',
                 name: 'articles',
-                component: () => import('@/views/home/index.vue')
+                component: () => import('@/views/articles/index.vue'),
             },
             {
                 path: 'projects',

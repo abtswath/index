@@ -1,3 +1,4 @@
 import useLoading from './use-loading';
+import usePagination from './use-pagination';
 
-export { useLoading };
+export { useLoading, usePagination };
