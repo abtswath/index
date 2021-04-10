@@ -1,3 +1,4 @@
+import { Pagination } from '..';
 import request from '../request';
 
 interface Project {
@@ -9,7 +10,11 @@ interface Project {
 export { Project };
 
 export default {
-    getProjects() {
-        return request.get<Project[]>('/projects');
+    getProjects(page: number) {
+        return request.get<Pagination<Project>>('/projects', {
+            params: {
+                page
+            }
+        });
     }
 };

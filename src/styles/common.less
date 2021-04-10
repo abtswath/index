@@ -74,7 +74,7 @@ each(@textDirections, {
     p: padding;
 }
 
-.mpDirection() {
+.directionList() {
     t: -top;
     r: -right;
     b: -bottom;
@@ -84,7 +84,7 @@ each(@textDirections, {
 @mpSize: 0, 8, 16;
 
 each(.mpType(), .(@type, @prefix) {
-    each(.mpDirection(), .(@direction, @suffix) {
+    each(.directionList(), .(@direction, @suffix) {
         .@{prefix}@{suffix} {
             @{type}@{direction}: 8px!important;
         }
@@ -93,10 +93,21 @@ each(.mpType(), .(@type, @prefix) {
         .@{prefix}-@{value} {
             @{type}: @value + 0px!important;
         }
-        each(.mpDirection(), .(@direction, @suffix) {
+        each(.directionList(), .(@direction, @suffix) {
             .@{prefix}@{suffix}-@{value} {
                 @{type}@{direction}: @value + 0px!important;
             }
         });
     });
+});
+
+each(range(3), {
+    .b-@{value} {
+        border: @value + 0px solid @border-color-base;
+    }
+    each(.directionList(), .(@direction, @suffix) {
+        .b@{suffix}-@{value} {
+            border@{direction}: @value + 0px solid @border-color-base;
+        }
+    })
 });

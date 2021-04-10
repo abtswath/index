@@ -1,10 +1,10 @@
 <template>
-    <ALayoutHeader :style="{ background: '#fff' }">
+    <ALayoutHeader class="header">
         <Logo />
-        <Menu />
-        <Search />
+        <Menu class="menu-hide" />
+        <Search class="search-hide" />
         <div class="float-right">
-            <I18n />
+            <I18n class="i18n-hide" />
             <User />
         </div>
     </ALayoutHeader>
@@ -29,3 +29,27 @@
         setup() {},
     });
 </script>
+
+<style lang="less" scoped>
+    .header {
+        background: #fff;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 99;
+        width: 100%;
+        @media screen and (max-width: 800px) {
+            .search-hide {
+                display: none;
+            }
+        }
+        @media screen and (max-width: 600px) {
+            position: static;
+            padding: 0 16px !important;
+            .menu-hide,
+            .i18n-hide {
+                display: none;
+            }
+        }
+    }
+</style>

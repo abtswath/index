@@ -4,6 +4,7 @@
         <transition name="fade">
             <Content />
         </transition>
+        <Footer />
     </ALayout>
 </template>
 
@@ -11,12 +12,14 @@
     import { defineComponent } from 'vue';
     import Header from './header/index.vue';
     import Content from './content/index.vue';
+    import Footer from './footer/index.vue';
     import { AccountService } from '@/services';
 
     export default defineComponent({
         components: {
             Header,
             Content,
+            Footer
         },
         beforeRouteEnter(to, from, next) {
             AccountService.checkLogin()

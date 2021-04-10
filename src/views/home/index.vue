@@ -6,6 +6,7 @@
                     gutter: 16,
                 }"
                 :data-source="projects"
+                :pagination="pagination"
             >
                 <template #renderItem="{ item }">
                     <AListItem>
@@ -53,9 +54,9 @@
 </template>
 
 <script lang="ts">
-    import { useLoading } from '@/composables';
-    import { Project, ProjectService, Response } from '@/services';
-    import { defineComponent, ref } from 'vue';
+    import { useLoading, usePagination } from '@/composables';
+    import { Pagination, Project, ProjectService, Response } from '@/services';
+    import { defineComponent, ref, watchEffect } from 'vue';
     import { useI18n } from 'vue-i18n';
 
     export default defineComponent({
@@ -63,18 +64,24 @@
             const { t } = useI18n();
             const projects = ref<Project[]>([]);
 
-            const { loading, task } = useLoading<Response<Project[]>>(
+            const pagination = usePagination();
+
+            const { loading, task } = useLoading<Response<Pagination<Project>>>(
                 ProjectService.getProjects
             );
-            task()
-                .then((response) => {
-                    projects.value = response.data;
-                })
-                .catch(() => {});
+            watchEffect(() => {
+                task(pagination.current)
+                    .then((response) => {
+                        pagination.total = response.data.total;
+                        projects.value = response.data.list;
+                    })
+                    .catch(() => {});
+            });
 
             return {
                 projects,
                 loading,
+                pagination,
                 t,
             };
         },

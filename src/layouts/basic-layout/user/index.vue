@@ -5,7 +5,9 @@
                 <AAvatar :size="36" style="display: block" class="mr-8">
                     <template #icon><UserOutlined /></template>
                 </AAvatar>
-                <span style="margin-right: 4px">admin</span>
+                <span style="margin-right: 4px">
+                    {{ info.username }}
+                </span>
                 <DownOutlined />
             </div>
             <template #overlay>
@@ -23,7 +25,7 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent } from 'vue';
+    import { computed, defineComponent } from 'vue';
     import {
         UserOutlined,
         DownOutlined,
@@ -32,6 +34,9 @@
         DesktopOutlined,
         LogoutOutlined,
     } from '@ant-design/icons-vue';
+    import { useI18n } from 'vue-i18n';
+    import { useRouter } from 'vue-router';
+    import { useStore } from 'vuex';
 
     export default defineComponent({
         components: {
@@ -42,40 +47,49 @@
             DesktopOutlined,
             LogoutOutlined,
         },
-        setup() {},
-        data() {
-            return {};
-        },
-        computed: {
-            menu() {
+        setup() {
+            const { t } = useI18n();
+            const router = useRouter();
+
+            const store = useStore();
+
+            const info = computed(() => store.getters['user/info']);
+            const menu = computed(() => {
                 return [
                     {
-                        label: this.$t('header.user.profile'),
+                        label: t('header.user.profile'),
                         icon: UserOutlined,
-                        event: () => {},
+                        event: () => {
+                            router.push({ name: 'user-setting' });
+                        },
                     },
                     {
-                        label: this.$t('header.user.projects'),
+                        label: t('header.user.projects'),
                         icon: ProjectOutlined,
                         event: () => {},
                     },
                     {
-                        label: this.$t('header.user.articles'),
+                        label: t('header.user.articles'),
                         icon: FileTextOutlined,
                         event: () => {},
                     },
                     {
-                        label: this.$t('header.user.management'),
+                        label: t('header.user.management'),
                         icon: DesktopOutlined,
                         event: () => {},
                     },
                     {
-                        label: this.$t('header.user.logout'),
+                        label: t('header.user.logout'),
                         icon: LogoutOutlined,
                         event: () => {},
                     },
                 ];
-            },
+            });
+
+            return {
+                menu,
+                info,
+            };
         },
     });
 </script>

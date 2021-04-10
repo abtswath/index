@@ -10,7 +10,7 @@
         name: 'App',
         setup() {
             const store = useStore();
-            store.dispatch('i18n/initializeLocale');
+            store.dispatch('initialize');
         },
     });
 </script>

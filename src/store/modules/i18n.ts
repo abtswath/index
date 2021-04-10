@@ -1,23 +1,24 @@
 import utils from '@/utils';
 import { ActionContext, Module } from 'vuex';
 import VueI18n from '@/i18n';
+import { State } from '..';
 
-interface State {
+interface LocaleState {
     locale: string
 }
 
-const i18n: Module<State, State> = ({
+const i18n: Module<LocaleState, State> = ({
     namespaced: true,
     state: {
         locale: ''
     },
     actions: {
-        initializeLocale({ state }: ActionContext<State, State>) {
+        initialize({ state }: ActionContext<LocaleState, State>) {
             let locale = utils.db.get('locale').value();
             state.locale = locale;
             VueI18n.global.locale = locale;
         },
-        setLocale({ state }: ActionContext<State, State>, locale = 'zh-CN') {
+        setLocale({ state }: ActionContext<LocaleState, State>, locale = 'zh-CN') {
             state.locale = locale;
             VueI18n.global.locale = locale;
             utils.db.set('locale', locale).write();

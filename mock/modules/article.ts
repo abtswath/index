@@ -1,3 +1,4 @@
+import { getPage } from '..';
 import { MockTemplate } from '../../plugins/vite-plugin-mock';
 import { Article } from '../../src/services';
 
@@ -7,8 +8,7 @@ export default [
         url: '/api/articles',
         timeout: 200,
         handle: ({ query }) => {
-            const queryPage = query.get('page');
-            const page = Number(queryPage) > 0 ? Number(queryPage) : 1;
+            const page = getPage(query);
             let articles: Article[] = [];
             for (let i = 0; i < 10; i++) {
                 const id = (page - 1) * 10 + i + 1;

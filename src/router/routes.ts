@@ -25,6 +25,11 @@ const frameInRoutes: VueRouter.RouteRecordRaw[] = [
                 component: () => import('@/views/home/index.vue')
             },
             {
+                path: 'search',
+                name: 'search',
+                component: () => import('@/views/home/index.vue')
+            },
+            {
                 path: 'articles',
                 name: 'articles',
                 component: () => import('@/views/articles/index.vue'),
@@ -33,6 +38,16 @@ const frameInRoutes: VueRouter.RouteRecordRaw[] = [
                 path: 'projects',
                 name: 'projects',
                 component: () => import('@/views/home/index.vue')
+            },
+            {
+                path: 'user',
+                name: 'user-setting',
+                component: () => import('@/views/user/setting/index.vue')
+            },
+            {
+                path: 'user/password',
+                name: 'password-change',
+                component: () => import('@/views/user/setting/index.vue')
             }
         ]
     }

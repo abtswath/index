@@ -1,5 +1,13 @@
 import { MockTemplate, Request } from '../../plugins/vite-plugin-mock';
 
+export const userInfo = {
+    username: 'admin',
+    avatar: '',
+    name: 'admin',
+    email: 'admin@admin.com',
+    description: 'description'
+};
+
 export default [
     {
         url: '/api/login',
@@ -17,7 +25,7 @@ export default [
             return {
                 statusCode: 200,
                 data: {
-                    data: '',
+                    data: userInfo,
                     message: 'success'
                 }
             };

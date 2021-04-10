@@ -2,30 +2,40 @@
     <div :style="{ float: 'left' }">
         <AInputSearch
             v-model="keyword"
-            :placeholder="$t('header.searchInputPlaceholder')"
+            :placeholder="t('header.searchInputPlaceholder')"
             style="width: 200px"
-            @search="onSearch"
+            @search="handleSearch"
         />
     </div>
 </template>
 
 <script lang="ts">
-    import { defineComponent } from 'vue';
+    import { defineComponent, ref } from 'vue';
+    import { useI18n } from 'vue-i18n';
+    import { useRouter } from 'vue-router';
 
     export default defineComponent({
-        data() {
-            return {
-                keyword: '',
-            };
-        },
-        methods: {
-            onSearch(value: string) {
-                this.$router.push({
+        setup() {
+            const { t } = useI18n();
+
+            const keyword = ref('');
+
+            const router = useRouter();
+
+            const handleSearch = (value: string) => {
+                router.push({
+                    name: 'search',
                     query: {
                         q: value,
                     },
                 });
-            },
+            };
+
+            return {
+                t,
+                keyword,
+                handleSearch,
+            };
         },
     });
 </script>

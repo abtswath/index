@@ -1,4 +1,5 @@
 import request from '../request';
+import { Profile } from './user';
 
 interface LoginForm {
     username: string;
@@ -9,7 +10,7 @@ export { LoginForm };
 
 export default {
     login(body: LoginForm) {
-        return request.post('/login', body);
+        return request.post<Profile>('/login', body);
     },
     checkLogin() {
         return request.get('/login');

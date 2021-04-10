@@ -14,8 +14,13 @@
 
 <style lang="less" scoped>
     .container {
-        min-height: calc(100vh - 64px);
+        min-height: calc(100vh - 70px);
         margin: 0 auto;
+        padding-top: 64px;
+        @media screen and (max-width: 600px) {
+            min-height: calc(100vh - 70px - 64px);
+            padding-top: 0;
+        }
         @media screen and (max-width: 576px) {
             width: 100%;
         }

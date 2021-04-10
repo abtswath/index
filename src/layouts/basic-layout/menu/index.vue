@@ -13,48 +13,52 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent } from 'vue';
+    import { computed, defineComponent, ref, watchEffect } from 'vue';
+    import { useI18n } from 'vue-i18n';
+    import { useRoute } from 'vue-router';
 
     export default defineComponent({
-        setup() {},
-        data() {
-            return {
-                selectedKey: 'home',
-            };
-        },
-        computed: {
-            menu() {
+        setup() {
+            const route = useRoute();
+
+            const { t } = useI18n();
+
+            const menu = computed(() => {
                 return [
                     {
-                        label: this.$t('header.menu.home'),
+                        label: t('header.menu.home'),
                         key: 'home',
                         to: {
                             name: 'home',
                         },
                     },
                     {
-                        label: this.$t('header.menu.articles'),
+                        label: t('header.menu.articles'),
                         key: 'articles',
                         to: {
                             name: 'articles',
                         },
                     },
                     {
-                        label: this.$t('header.menu.projects'),
+                        label: t('header.menu.projects'),
                         key: 'projects',
                         to: {
                             name: 'projects',
                         },
                     },
                 ];
-            },
-        },
-        watch: {
-            $route() {
-                this.selectedKey = this.$route.name
-                    ? this.$route.name.toString()
-                    : '';
-            },
+            });
+
+            const selectedKey = ref('home');
+
+            watchEffect(() => {
+                selectedKey.value = route.name?.toString() || 'home';
+            });
+
+            return {
+                menu,
+                selectedKey,
+            };
         },
     });
 </script>

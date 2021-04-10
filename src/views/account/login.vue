@@ -87,7 +87,8 @@
     import { LocaleSelector } from '@/components';
     import { useLoading } from '@/composables';
     import { useRouter } from 'vue-router';
-    import { LoginForm, AccountService } from '@/services';
+    import { LoginForm, AccountService, Profile, Response } from '@/services';
+    import { useStore } from 'vuex';
 
     export default defineComponent({
         components: {
@@ -95,6 +96,7 @@
         },
         setup() {
             const { t } = useI18n();
+            const store = useStore();
 
             const captcha = ref('@/assets/captcha.jpg');
 
@@ -138,15 +140,18 @@
             });
 
             const formRef = ref();
-            const { loading, task } = useLoading(AccountService.login);
+            const { loading, task } = useLoading<Response<Profile>>(
+                AccountService.login
+            );
             const router = useRouter();
 
             const handleSubmit = () => {
                 validate()
                     .then(() => {
                         task(toRaw(form))
-                            .then(() => {
+                            .then((response) => {
                                 router.push('/');
+                                store.dispatch('user/setUserInfo', response.data);
                             })
                             .catch(() => {});
                     })
