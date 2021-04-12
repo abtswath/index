@@ -11,9 +11,6 @@ interface Profile {
 export { Profile };
 
 export default {
-    getProfile() {
-        return request.get<Profile>('/user/profile');
-    },
     saveProfile(data: Profile) {
         return request.put('/user/profile', data);
     }

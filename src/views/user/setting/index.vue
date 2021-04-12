@@ -7,21 +7,25 @@
         :label-col="{ span: 4, xs: 4 }"
         :wrapper-col="{ span: 14, xs: 18 }"
         label-align="right"
-        :rules="rules"
         :model="form"
+        :rules="rules"
         ref="formRef"
-        @submit="handleSubmit"
+        @finish="handleSubmit"
     >
-        <AFormItem label="用户名">
+        <AFormItem name="username" :label="t('user.profile.username.label')">
             <AInput :value="form.username" disabled />
         </AFormItem>
-        <AFormItem name="name" label="姓名">
+        <AFormItem name="name" :label="t('user.profile.name.label')">
             <AInput v-model:value="form.name" />
         </AFormItem>
-        <AFormItem name="email" label="邮箱">
+        <AFormItem name="email" :label="t('user.profile.email.label')">
             <AInput v-model:value="form.email" />
         </AFormItem>
-        <AFormItem name="description" label="描述" help="描述不能超过200字">
+        <AFormItem
+            name="description"
+            :label="t('user.profile.description.label')"
+            :help="t('user.profile.description.invalid')"
+        >
             <ATextarea
                 v-model:value="form.description"
                 :auto-size="{ minRows: 4, maxRows: 4 }"
@@ -29,7 +33,7 @@
         </AFormItem>
         <AFormItem :wrapper-col="{ offset: 4 }">
             <AButton :loading="loading" htmlType="submit" type="primary">
-                保存
+                {{ t('common.submit') }}
             </AButton>
         </AFormItem>
     </AForm>
@@ -39,72 +43,70 @@
     import { useLoading } from '@/composables';
     import { Profile, UserService } from '@/services';
     import { message } from 'ant-design-vue';
-    import {
-        ComponentPublicInstance,
-        computed,
-        defineComponent,
-        reactive,
-        ref,
-    } from 'vue';
+    import { computed, defineComponent, reactive, ref, UnwrapRef } from 'vue';
+    import { useI18n } from 'vue-i18n';
+    import { useStore } from 'vuex';
 
     export default defineComponent({
-        beforeRouteEnter(to, from, next) {
-            UserService.getProfile()
-                .then((response) => {
-                    next((vm) => {
-                        const instance = vm as {
-                            form: Profile;
-                        } & ComponentPublicInstance;
-                        instance.form.username = response.data.username;
-                        instance.form.name = response.data.name;
-                        instance.form.email = response.data.email;
-                        instance.form.description = response.data.description;
-                    });
-                })
-                .catch(() => {
-                    next({ name: from.name || 'home' });
-                });
-        },
         setup() {
-            const form = reactive<Profile>({
-                username: '',
-                name: '',
-                email: '',
-                description: '',
+            const formRef = ref();
+            const store = useStore();
+            const { t } = useI18n();
+
+            const info = store.getters['user/info'];
+
+            const form: UnwrapRef<Profile> = reactive({
+                username: info.username,
+                name: info.name,
+                email: info.email,
+                description: info.description,
             });
 
             const rules = computed(() => {
                 return {
                     name: [
-                        { required: true, message: '请填写姓名', trigger: 'blur' },
+                        {
+                            required: true,
+                            message: t('user.profile.name.empty'),
+                            trigger: 'blur',
+                        },
                     ],
                     email: [
-                        { required: true, message: '请填写邮箱', trigger: 'blur' },
-                        { type: 'email', message: '邮箱格式错误', trigger: 'blur' },
+                        {
+                            required: true,
+                            message: t('user.profile.email.empty'),
+                            trigger: 'blur',
+                        },
+                        {
+                            type: 'email',
+                            message: t('user.profile.email.invalid'),
+                            trigger: 'blur',
+                        },
                     ],
                     description: [
-                        { max: 500, message: '描述不能超过200字', trigger: 'blur' },
+                        {
+                            max: 500,
+                            type: 'string',
+                            message: t('user.profile.description.invalid'),
+                            trigger: 'blur',
+                        },
                     ],
                 };
             });
 
-            const formRef = ref();
             const { loading, task } = useLoading(UserService.saveProfile);
             const handleSubmit = () => {
-                formRef.value
-                    .validate()
+                task(form)
                     .then(() => {
-                        task(form)
-                            .then(() => {
-                                message.success('操作成功');
-                            })
-                            .catch(() => {});
+                        message.success(t('common.success'));
+                        store.dispatch('user/setUserInfo', form);
                     })
                     .catch(() => {});
             };
 
             return {
                 formRef,
+                t,
                 form,
                 rules,
                 handleSubmit,

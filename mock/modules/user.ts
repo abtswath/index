@@ -4,7 +4,7 @@ import { userInfo } from './account';
 export default [
     {
         url: '/user/profile',
-        method: 'POST',
+        method: 'PUT',
         handle: ({ body }) => {
             userInfo.name = body.name;
             userInfo.email = body.email;
