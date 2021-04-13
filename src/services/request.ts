@@ -11,6 +11,7 @@ import Axios, {
 } from 'axios';
 import router from '@/router';
 import config from '@/config';
+import store from '@/store';
 
 export interface Response<T> {
     message: string;
@@ -91,8 +92,11 @@ class Request {
             },
             (error: AxiosError<Response<any>>) => {
                 if (error.response?.status === 401) {
+                    store.commit('account/session', false);
                     if (window.location.pathname !== '/login') {
-                        router.push({ name: 'login' });
+                        router.push('/login').then(() => {
+                            store.dispatch('user/clear');
+                        });
                     }
                     this.cancelAll();
                     return Promise.reject(error);

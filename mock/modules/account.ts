@@ -32,19 +32,6 @@ export default [
         }
     },
     {
-        url: '/api/login',
-        method: 'GET',
-        handle: () => {
-            return {
-                statusCode: 200,
-                data: {
-                    data: '',
-                    message: 'success'
-                }
-            };
-        }
-    },
-    {
         url: '/api/logout',
         method: 'DELETE',
         handle: () => {

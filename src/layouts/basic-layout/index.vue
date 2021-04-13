@@ -21,15 +21,6 @@
             Content,
             Footer
         },
-        beforeRouteEnter(to, from, next) {
-            AccountService.checkLogin()
-                .then(() => {
-                    next();
-                })
-                .catch(() => {
-                    next({ name: 'login' });
-                });
-        },
         setup() {},
     });
 </script>

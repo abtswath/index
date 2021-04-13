@@ -21,6 +21,7 @@ export default [
             }
 
             return {
+                statusCode: 401,
                 data: {
                     data: {
                         total,
