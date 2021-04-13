@@ -3,8 +3,10 @@ import { VueMessageType } from 'vue-i18n';
 
 export default {
     profile: {
+        title: '基本信息',
         avatar: {
-            label: '头像'
+            label: '头像',
+            tooLarge: '上传文件大小不能超过2MB'
         },
         username: {
             label: '用户名'

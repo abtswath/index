@@ -1,5 +1,7 @@
 <template>
-    <APageHeader :back-icon="false" class="bb-1"> 基本信息 </APageHeader>
+    <APageHeader :back-icon="false" class="bb-1">
+        {{ t('user.profile.title') }}
+    </APageHeader>
     <AForm
         class="profile-form mt-16"
         layout="horizontal"
@@ -138,10 +140,9 @@
             };
 
             const beforeUpload = (file: File) => {
-                // TODO. Config.avatarSize
-                if (file.size > 1024 * 10 * 2) {
+                if (file.size > 1024 * 1024 * 2) {
                     validateAvatarStatus.value = 'error';
-                    validateAvatarMessage.value = '上传文件大小不能超过2MB';
+                    validateAvatarMessage.value = t('user.profile.avatar.tooLarge');
                     return false;
                 }
                 validateAvatarStatus.value = 'success';
