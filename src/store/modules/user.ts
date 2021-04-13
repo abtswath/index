@@ -4,43 +4,51 @@ import { ActionContext, Module } from 'vuex';
 import { State } from '..';
 
 interface UserState {
-    info: Profile;
+    info: Profile | null;
 }
 
 const user: Module<UserState, State> = {
     namespaced: true,
     state: {
-        info: {
-            username: '',
-            avatar: '',
-            name: '',
-            email: '',
-            description: ''
-        }
+        info: null
     },
     getters: {
-        info: (state): Profile => {
+        info: (state): Profile | null => {
             return state.info;
         }
     },
+    mutations: {
+        info: (state, info: Profile | null) => {
+            state.info = info;
+        }
+    },
     actions: {
-        initialize({ state }: ActionContext<UserState, State>) {
+        initialize({ commit }: ActionContext<UserState, State>) {
             if (utils.db.has('user.info')) {
                 let info = utils.db.get('user.info').value() as Profile;
                 if (info) {
-                    state.info = {
+                    commit('info', {
                         username: info.username || '',
                         avatar: info.avatar || '',
                         name: info.name || '',
                         email: info.email || '',
                         description: info.description || ''
-                    };
+                    });
                 }
             }
         },
-        setUserInfo({ state }: ActionContext<UserState, State>, info: Profile) {
-            state.info = info;
-            utils.db.set('user.info', info).write();
+        setUserInfo(
+            { commit }: ActionContext<UserState, State>,
+            info: Profile | null
+        ) {
+            commit('info', info);
+            if (info !== null) {
+                utils.db.set('user.info', info).write();
+            }
+        },
+        clear({commit}: ActionContext<UserState, State>) {
+            commit('info', null);
+            utils.db.unset('user').write();
         }
     }
 };

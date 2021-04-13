@@ -24,6 +24,9 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
                     javascriptEnabled: true
                 }
             }
+        },
+        define: {
+            'process.env.TEST_IE': 'false'
         }
     };
 };

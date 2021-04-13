@@ -14,5 +14,8 @@ export default {
     },
     checkLogin() {
         return request.get('/login');
+    },
+    logout() {
+        return request.delete('/logout');
     }
 };

@@ -97,7 +97,7 @@ class Request {
                     this.cancelAll();
                     return Promise.reject(error);
                 }
-                if (error.response?.data.ignore === false) {
+                if (error.response?.data.ignore !== true) {
                     message.error(
                         error.response?.data?.message || '未知错误，请稍后重试'
                     );

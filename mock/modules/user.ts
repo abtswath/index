@@ -3,7 +3,7 @@ import { userInfo } from './account';
 
 export default [
     {
-        url: '/user/profile',
+        url: '/users/profile',
         method: 'PUT',
         handle: ({ body }) => {
             userInfo.name = body.name;
@@ -15,6 +15,18 @@ export default [
                     message: 'success'
                 }
             };
+        }
+    },
+    {
+        url: '/api/avatar',
+        method: 'POST',
+        handle: () => {
+            return {
+                data: {
+                    data: '/src/assets/avatar.png',
+                    message: 'success'
+                }
+            }
         }
     }
 ] as MockTemplate[];

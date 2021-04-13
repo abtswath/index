@@ -4,14 +4,37 @@
         class="profile-form mt-16"
         layout="horizontal"
         :colon="false"
-        :label-col="{ span: 4, xs: 4 }"
-        :wrapper-col="{ span: 14, xs: 18 }"
+        :label-col="{ span: 4, xs: 4, md: 2 }"
+        :wrapper-col="{ span: 14, xs: 18, md: 8 }"
         label-align="right"
         :model="form"
         :rules="rules"
         ref="formRef"
         @finish="handleSubmit"
     >
+        <AFormItem
+            name="avatar"
+            :label="t('user.profile.avatar.label')"
+            :validate-status="validateAvatarStatus"
+            :help="validateAvatarMessage"
+        >
+            <AUpload
+                v-model:file-list="fileList"
+                accept="image/png, image/jpeg"
+                name="avatar"
+                action="/api/avatar"
+                :before-upload="beforeUpload"
+                list-type="picture-card"
+                :show-upload-list="false"
+                @change="handleUploadChange"
+                class="profile-form_avatar"
+            >
+                <img v-if="form.avatar" :src="form.avatar" alt="avatar" />
+                <div v-else>
+                    <PlusOutlined />
+                </div>
+            </AUpload>
+        </AFormItem>
         <AFormItem name="username" :label="t('user.profile.username.label')">
             <AInput :value="form.username" disabled />
         </AFormItem>
@@ -31,7 +54,7 @@
                 :auto-size="{ minRows: 4, maxRows: 4 }"
             />
         </AFormItem>
-        <AFormItem :wrapper-col="{ offset: 4 }">
+        <AFormItem label=" ">
             <AButton :loading="loading" htmlType="submit" type="primary">
                 {{ t('common.submit') }}
             </AButton>
@@ -46,20 +69,30 @@
     import { computed, defineComponent, reactive, ref, UnwrapRef } from 'vue';
     import { useI18n } from 'vue-i18n';
     import { useStore } from 'vuex';
+    import { PlusOutlined } from '@ant-design/icons-vue';
 
     export default defineComponent({
+        components: {
+            PlusOutlined,
+        },
         setup() {
             const formRef = ref();
             const store = useStore();
             const { t } = useI18n();
 
+            const fileList = ref([]);
+
+            const validateAvatarStatus = ref('success');
+            const validateAvatarMessage = ref('');
+
             const info = store.getters['user/info'];
 
             const form: UnwrapRef<Profile> = reactive({
-                username: info.username,
-                name: info.name,
-                email: info.email,
-                description: info.description,
+                avatar: info && info.avatar,
+                username: info && info.username,
+                name: info && info.name,
+                email: info && info.email,
+                description: info && info.description,
             });
 
             const rules = computed(() => {
@@ -104,19 +137,44 @@
                     .catch(() => {});
             };
 
+            const beforeUpload = (file: File) => {
+                // TODO. Config.avatarSize
+                if (file.size > 1024 * 10 * 2) {
+                    validateAvatarStatus.value = 'error';
+                    validateAvatarMessage.value = '上传文件大小不能超过2MB';
+                    return false;
+                }
+                validateAvatarStatus.value = 'success';
+                validateAvatarMessage.value = '';
+                return true;
+            };
+
+            const handleUploadChange = ({ file }: any) => {
+                if (file.status === 'error') {
+                    message.error(file.response.message);
+                } else if (file.status === 'done') {
+                    form.avatar = file.response.data;
+                }
+            };
+
             return {
+                fileList,
                 formRef,
                 t,
                 form,
                 rules,
                 handleSubmit,
                 loading,
+                beforeUpload,
+                validateAvatarStatus,
+                validateAvatarMessage,
+                handleUploadChange,
             };
         },
     });
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
     .profile-form {
         .ant-form-item-label {
             @media (max-width: 575px) {
@@ -124,6 +182,21 @@
                 line-height: 40px !important;
                 padding: 0 8px 0 0 !important;
                 text-align: right !important;
+            }
+        }
+        &_avatar {
+            .ant-upload.ant-upload-select-picture-card {
+                border-radius: 50%;
+                .ant-upload {
+                    padding: 0;
+                    width: 104px;
+                    height: 104px;
+                    img {
+                        border-radius: 50%;
+                        width: 104px;
+                        height: 104px;
+                    }
+                }
             }
         }
     }

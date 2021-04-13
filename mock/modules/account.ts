@@ -2,7 +2,7 @@ import { MockTemplate, Request } from '../../plugins/vite-plugin-mock';
 
 export const userInfo = {
     username: 'admin',
-    avatar: '',
+    avatar: '/src/assets/avatar.png',
     name: 'admin',
     email: 'admin@admin.com',
     description: 'description'
@@ -37,6 +37,18 @@ export default [
         handle: () => {
             return {
                 statusCode: 200,
+                data: {
+                    data: '',
+                    message: 'success'
+                }
+            };
+        }
+    },
+    {
+        url: '/api/logout',
+        method: 'DELETE',
+        handle: () => {
+            return {
                 data: {
                     data: '',
                     message: 'success'

@@ -87,7 +87,7 @@
     import { LocaleSelector } from '@/components';
     import { useLoading } from '@/composables';
     import { useRouter } from 'vue-router';
-    import { LoginForm, AccountService, Profile, Response } from '@/services';
+    import { LoginForm, Profile, Response } from '@/services';
     import { useStore } from 'vuex';
 
     export default defineComponent({
@@ -105,9 +105,9 @@
             };
 
             const form: UnwrapRef<LoginForm> = reactive({
-                username: '',
-                password: '',
-                captcha: '',
+                username: 'admin',
+                password: '123456',
+                captcha: 'asd',
                 remember: false,
             });
 
@@ -140,8 +140,8 @@
             });
 
             const formRef = ref();
-            const { loading, task } = useLoading<Response<Profile>>(
-                AccountService.login
+            const { loading, task } = useLoading<Response<Profile>>((data: LoginForm) =>
+                store.dispatch('account/login', data)
             );
             const router = useRouter();
 
@@ -149,9 +149,8 @@
                 validate()
                     .then(() => {
                         task(toRaw(form))
-                            .then((response) => {
+                            .then(() => {
                                 router.push('/');
-                                store.dispatch('user/setUserInfo', response.data);
                             })
                             .catch(() => {});
                     })

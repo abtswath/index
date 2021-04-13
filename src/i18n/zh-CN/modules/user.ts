@@ -3,6 +3,9 @@ import { VueMessageType } from 'vue-i18n';
 
 export default {
     profile: {
+        avatar: {
+            label: '头像'
+        },
         username: {
             label: '用户名'
         },

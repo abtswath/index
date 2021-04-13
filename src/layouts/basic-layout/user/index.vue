@@ -81,7 +81,9 @@
                     {
                         label: t('header.user.logout'),
                         icon: LogoutOutlined,
-                        event: () => {},
+                        event: () => {
+                            store.dispatch('account/logout');
+                        },
                     },
                 ];
             });
