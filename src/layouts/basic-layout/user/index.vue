@@ -71,7 +71,9 @@
                     {
                         label: t('header.user.articles'),
                         icon: FileTextOutlined,
-                        event: () => {},
+                        event: () => {
+                            router.push({ name: 'user-articles' });
+                        },
                     },
                     {
                         label: t('header.user.management'),

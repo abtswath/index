@@ -23,6 +23,7 @@ export default [
 
             return {
                 data: {
+                    code: '000000',
                     data: {
                         list: articles,
                         total: 24

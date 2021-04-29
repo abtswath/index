@@ -1,6 +1,8 @@
 <template>
     <APageHeader :back-icon="false" class="bb-1">
-        {{ t('user.profile.title') }}
+        <template #title>
+            {{ t('user.profile.title') }}
+        </template>
     </APageHeader>
     <AForm
         class="profile-form mt-16"

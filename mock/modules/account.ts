@@ -17,6 +17,7 @@ export default [
                 return {
                     statusCode: 400,
                     data: {
+                        code: '000000',
                         data: '',
                         message: '用户名或密码错误'
                     }
@@ -25,6 +26,7 @@ export default [
             return {
                 statusCode: 200,
                 data: {
+                    code: '000000',
                     data: userInfo,
                     message: 'success'
                 }
@@ -37,6 +39,7 @@ export default [
         handle: () => {
             return {
                 data: {
+                    code: '000000',
                     data: '',
                     message: 'success'
                 }

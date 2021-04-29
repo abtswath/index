@@ -14,9 +14,9 @@ import config from '@/config';
 import store from '@/store';
 
 export interface Response<T> {
+    code: string;
     message: string;
     data: T;
-    ignore?: boolean;
 }
 
 class Request {
@@ -101,15 +101,15 @@ class Request {
                     this.cancelAll();
                     return Promise.reject(error);
                 }
-                if (error.response?.data.ignore !== true) {
-                    message.error(
-                        error.response?.data?.message || '未知错误，请稍后重试'
-                    );
-                }
+                this.showMessage(error.response?.data);
                 this.removeToken(error.config.cancelToken);
                 return Promise.reject(error);
             }
         );
+    }
+
+    protected showMessage(response: Response<any>) {
+        message.error((response && response.message) || '未知错误，请稍后重试');
     }
 
     create(config?: AxiosRequestConfig): AxiosInstance {

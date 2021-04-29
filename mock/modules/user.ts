@@ -11,6 +11,7 @@ export default [
             userInfo.description = body.description;
             return {
                 data: {
+                    code: '000000',
                     data: '',
                     message: 'success'
                 }
@@ -23,6 +24,7 @@ export default [
         handle: () => {
             return {
                 data: {
+                    code: '000000',
                     data: '/src/assets/avatar.png',
                     message: 'success'
                 }
