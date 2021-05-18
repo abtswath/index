@@ -6,13 +6,13 @@ const frameOutRoutes: VueRouter.RouteRecordRaw[] = [
     {
         path: '/login',
         name: 'login',
-        component: () => import('@/views/account/login.vue')
+        component: () => import('@/views/account/login.vue'),
     },
     {
         path: '/password_reset',
         name: 'password_reset',
-        component: () => BasicLayout
-    }
+        component: () => BasicLayout,
+    },
 ];
 
 const frameInRoutes: VueRouter.RouteRecordRaw[] = [
@@ -23,22 +23,22 @@ const frameInRoutes: VueRouter.RouteRecordRaw[] = [
             {
                 path: '',
                 name: 'home',
-                component: () => import('@/views/home/index.vue')
+                component: () => import('@/views/home/index.vue'),
             },
             {
                 path: 'search',
                 name: 'search',
-                component: () => import('@/views/home/index.vue')
+                component: () => import('@/views/home/index.vue'),
             },
             {
                 path: 'articles',
                 name: 'articles',
-                component: () => import('@/views/articles/index.vue')
+                component: () => import('@/views/articles/index.vue'),
             },
             {
                 path: 'projects',
                 name: 'projects',
-                component: () => import('@/views/home/index.vue')
+                component: () => import('@/views/home/index.vue'),
             },
             {
                 path: 'user',
@@ -48,13 +48,13 @@ const frameInRoutes: VueRouter.RouteRecordRaw[] = [
                         path: '',
                         name: 'user-setting',
                         component: () =>
-                            import('@/views/user/setting/index.vue')
+                            import('@/views/user/setting/index.vue'),
                     },
                     {
                         path: 'password',
                         name: 'password-change',
                         component: () =>
-                            import('@/views/user/setting/index.vue')
+                            import('@/views/user/setting/index.vue'),
                     },
                     {
                         path: 'articles',
@@ -64,31 +64,43 @@ const frameInRoutes: VueRouter.RouteRecordRaw[] = [
                                 path: '',
                                 name: 'user-articles',
                                 component: () =>
-                                    import('@/views/user/articles/index.vue')
+                                    import('@/views/user/articles/index.vue'),
                             },
-                            {
-                                path: 'add',
-                                name: 'user-articles-add',
-                                component: () =>
-                                    import('@/views/user/articles/edit.vue')
-                            },
-                            {
-                                path: 'edit/:id',
-                                name: 'user-articles-edit',
-                                component: () =>
-                                    import('@/views/user/articles/edit.vue')
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-    }
+                        ],
+                    },
+                ],
+            },
+        ],
+    },
+    {
+        path: '/user',
+        component: BlankLayout,
+        children: [
+            {
+                path: 'articles',
+                component: BlankLayout,
+                children: [
+                    {
+                        path: 'add',
+                        name: 'user-articles-add',
+                        component: () =>
+                            import('@/views/user/articles/edit.vue'),
+                    },
+                    {
+                        path: 'edit/:id',
+                        name: 'user-articles-edit',
+                        component: () =>
+                            import('@/views/user/articles/edit.vue'),
+                    },
+                ],
+            },
+        ],
+    },
 ];
 
 const routes: VueRouter.RouteRecordRaw[] = [
     ...frameOutRoutes,
-    ...frameInRoutes
+    ...frameInRoutes,
 ];
 
 export default routes;

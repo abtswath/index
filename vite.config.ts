@@ -1,6 +1,7 @@
 import { ConfigEnv, UserConfigExport } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import viteMockPlugin from './plugins/vite-plugin-mock';
+import mock from './plugins/vite-plugin-mock';
+import html from 'vite-plugin-html';
 
 const path = require('path');
 
@@ -9,8 +10,16 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
     return {
         plugins: [
             vue(),
-            viteMockPlugin({
+            mock({
                 templatePath: './mock'
+            }),
+            html({
+                minify: true,
+                inject: {
+                    injectData: {
+                        title: 'INDEX'
+                    }
+                }
             })
         ],
         resolve: {

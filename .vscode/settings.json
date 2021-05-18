@@ -21,4 +21,6 @@
     "vetur.format.options.tabSize": 4,
     "vetur.format.styleInitialIndent": true,
     "vetur.format.scriptInitialIndent": true,
+    "vetur.format.defaultFormatter.less": "prettier",
+    "vetur.format.defaultFormatter.html": "prettier"
 }

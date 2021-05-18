@@ -1,0 +1,28 @@
+.viewer {
+    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier,
+        monospace;
+    word-wrap: break-word;
+    white-space: normal;
+    padding: 16px;
+    font-size: 14px;
+    line-height: 1.575;
+}
+.g-index {
+    border-radius: 5px;
+    &::before {
+        position: relative;
+        top: 34px;
+        margin-top: -24px;
+        content: '';
+        background: url(/src/assets/icons/window-control.svg) no-repeat;
+        background-position: 14px center;
+        height: 24px;
+        display: block;
+        width: 100%;
+        background-color: #282c34;
+    }
+    code {
+        padding: 16px;
+        padding-top: 48px;
+    }
+}

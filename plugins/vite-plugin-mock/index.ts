@@ -7,17 +7,13 @@ import { IncomingMessage } from 'http';
 const path = require('path');
 const fs = require('fs');
 
-let modeDevelopment = false;
-
-export default function viteMockPlugin(option: Option): Plugin {
+const mock = (option: Option): Plugin => {
     return {
         name: 'vite-plugin-mock',
         enforce: 'pre',
-        configResolved: (resolvedConfig) => {
-            modeDevelopment = resolvedConfig.command === 'serve';
-        },
+        apply: 'serve',
         configureServer: ({ middlewares, watcher }) => {
-            const { enabled = modeDevelopment } = option;
+            const { enabled = true } = option;
             if (!enabled) {
                 return;
             }
@@ -211,3 +207,4 @@ const requestMiddleware = (option: Option) => {
 };
 
 export * from './types';
+export default mock;
