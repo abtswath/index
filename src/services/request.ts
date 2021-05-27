@@ -108,7 +108,7 @@ class Request {
         );
     }
 
-    protected showMessage(response: Response<any>) {
+    protected showMessage(response: Response<any> | undefined) {
         message.error((response && response.message) || '未知错误，请稍后重试');
     }
 

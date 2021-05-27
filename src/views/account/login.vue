@@ -115,21 +115,27 @@
                 username: [
                     {
                         required: true,
-                        message: computed(() => t('account.login.username.empty')),
+                        message: computed(() =>
+                            t('account.login.username.empty')
+                        ),
                         trigger: 'blur',
                     },
                 ],
                 password: [
                     {
                         required: true,
-                        message: computed(() => t('account.login.password.empty')),
+                        message: computed(() =>
+                            t('account.login.password.empty')
+                        ),
                         trigger: 'blur',
                     },
                 ],
                 captcha: [
                     {
                         required: true,
-                        message: computed(() => t('account.login.captcha.empty')),
+                        message: computed(() =>
+                            t('account.login.captcha.empty')
+                        ),
                         trigger: 'blur',
                     },
                 ],
@@ -139,9 +145,8 @@
                 validateOnRuleChange: true,
             });
 
-            const formRef = ref();
-            const { loading, task } = useLoading<Response<Profile>>((data: LoginForm) =>
-                store.dispatch('account/login', data)
+            const { loading, task } = useLoading<Response<Profile>>(
+                (data: LoginForm) => store.dispatch('account/login', data)
             );
             const router = useRouter();
 
@@ -160,7 +165,6 @@
             return {
                 form,
                 rules,
-                formRef,
                 validateInfos,
                 handleSubmit,
                 validate,

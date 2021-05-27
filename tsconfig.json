@@ -8,8 +8,9 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "lib": ["esnext", "dom"],
-    "types": ["vite/client", "@types/markdown-it", "@types/codemirror"],
+    "types": ["vite/client", "@types/markdown-it"],
     "paths": {
       "@/*": [
         "./src/*"

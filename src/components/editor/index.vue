@@ -1,19 +1,19 @@
 <template>
     <ARow class="full-height">
-        <ACol :span="12" class="full-height" @mouseover="setMouseOn('editor')">
+        <ACol :span="12" class="full-height">
             <Editor
                 ref="editor"
+                @mouseover="setMouseOn(mouseLocation.editor)"
+                @mouseleave="setMouseOn(mouseLocation.unknown)"
                 v-model:value="content"
-                @scroll="handleScroll"
+                @on-scroll="editorScroll"
             />
         </ACol>
-        <ACol
-            :span="12"
-            class="full-height overflow-hidden"
-            @mouseover="setMouseOn('viewer')"
-        >
+        <ACol :span="12" class="full-height overflow-hidden">
             <div
-                @scroll="handleScroll('viewer')"
+                @mouseover="setMouseOn(mouseLocation.viewer)"
+                @mouseleave="setMouseOn(mouseLocation.unknown)"
+                @scroll="viewerScroll"
                 ref="viewer"
                 class="viewer full-height overflow-y-auto"
                 v-html="html"
@@ -23,17 +23,19 @@
 </template>
 
 <script lang="ts">
+    import './store';
     import { defineComponent, ref, watchEffect } from 'vue';
     import Editor from './editor.vue';
     import MarkdownIt from 'markdown-it';
     import hljs from 'highlight.js';
     import 'highlight.js/styles/atom-one-dark.css';
-    import './viewer.less';
+    import './themes/viewer.less';
     import './highlight.js';
 
     enum MouseLocation {
         editor = 'editor',
         viewer = 'viewer',
+        unknown = 'unknown',
     }
 
     export default defineComponent({
@@ -43,8 +45,8 @@
         setup() {
             const content = ref<string>('');
             const html = ref<string>('');
-            const editor = ref<typeof Editor>();
             const viewer = ref<HTMLElement>();
+            const editor = ref();
 
             const md: MarkdownIt = new MarkdownIt({
                 highlight: (str, lang) => {
@@ -76,29 +78,31 @@
                 mouseLocation = location;
             };
 
-            const handleScroll = () => {
-                const element = viewer.value as HTMLElement;
-                const cm = editor.value?.getInstance();
-                const { top, height } = cm.getScrollInfo();
-                if (mouseOn(MouseLocation.editor)) {
-                    element.scrollTo({
-                        top: element.scrollHeight * (top / height),
-                    });
-                } else {
-                    cm.scrollTo(
-                        0,
-                        height * (element.scrollTop / element.scrollHeight)
-                    );
+            const editorScroll = (pos: number) => {
+                if (!mouseOn(MouseLocation.editor)) {
+                    return;
                 }
+                const element = viewer.value as HTMLElement;
+                element.scrollTo(0, element.scrollHeight * pos);
+            };
+
+            const viewerScroll = () => {
+                if (!mouseOn(MouseLocation.viewer)) {
+                    return;
+                }
+                const element = viewer.value as HTMLElement;
+                editor.value.scrollTo(element.scrollTop / element.scrollHeight);
             };
 
             return {
                 content,
                 html,
-                handleScroll,
                 viewer,
                 editor,
                 setMouseOn,
+                viewerScroll,
+                editorScroll,
+                mouseLocation: MouseLocation,
             };
         },
     });

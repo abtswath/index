@@ -2,7 +2,7 @@ import request from '../request';
 
 interface Profile {
     username: string;
-    avatar?: string | File;
+    avatar?: string;
     name: string;
     email: string;
     description: string;

@@ -58,31 +58,31 @@
                 return [
                     {
                         label: t('header.user.profile'),
-                        icon: UserOutlined,
+                        icon: 'UserOutlined',
                         event: () => {
                             router.push({ name: 'user-setting' });
                         },
                     },
                     {
                         label: t('header.user.projects'),
-                        icon: ProjectOutlined,
+                        icon: 'ProjectOutlined',
                         event: () => {},
                     },
                     {
                         label: t('header.user.articles'),
-                        icon: FileTextOutlined,
+                        icon: 'FileTextOutlined',
                         event: () => {
                             router.push({ name: 'user-articles' });
                         },
                     },
                     {
                         label: t('header.user.management'),
-                        icon: DesktopOutlined,
+                        icon: 'DesktopOutlined',
                         event: () => {},
                     },
                     {
                         label: t('header.user.logout'),
-                        icon: LogoutOutlined,
+                        icon: 'LogoutOutlined',
                         event: () => {
                             store.dispatch('account/logout');
                         },
@@ -97,4 +97,3 @@
         },
     });
 </script>
-

@@ -92,7 +92,7 @@
             const info = store.getters['user/info'];
 
             const form: UnwrapRef<Profile> = reactive({
-                avatar: info && info.avatar,
+                avatar: info && info.avatar as string,
                 username: info && info.username,
                 name: info && info.name,
                 email: info && info.email,

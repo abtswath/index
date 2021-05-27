@@ -1,40 +1,37 @@
 <template>
-    <div class="search-bar">
-        <input />
+    <div class="search-bar" v-if="show">
+        <div class="search-bar-input">
+            <input ref="input" />
+        </div>
+        <div class="search-bar-action">
+            <button disabled class="search-bar-action__prev"></button>
+            <button disabled class="search-bar-action__next"></button>
+            <button @click="close" class="search-bar-action__close"></button>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
-    import { defineComponent } from 'vue';
+    import { computed, defineComponent, ref } from 'vue';
+    import store from '../../store';
+    import './index.less';
 
     export default defineComponent({
-        setup() {},
+        setup() {
+            const input = ref<HTMLInputElement>();
+
+            const show = computed(() => {
+                const state = store.getters['searchBarStatus'];
+                if (state) {
+                    input.value?.focus();
+                }
+                return state;
+            });
+
+            return {
+                show,
+                input,
+            };
+        },
     });
 </script>
-
-<style lang="less" scoped>
-    .search-bar {
-        position: absolute;
-        top: 0;
-        right: 0;
-        z-index: 99999;
-        background: inherit;
-        padding: 4px 8px;
-        box-shadow: -2px 0 4px -2px rgba(0, 0, 0, .4), 0 5px 10px -5px rgba(0, 0, 0, .4);
-
-        &::before {
-            content: '';
-            background: #03a9f4;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 2px;
-            height: 100%;
-            display: block;
-        }
-
-        input {
-            background: #fff;
-        }
-    }
-</style>

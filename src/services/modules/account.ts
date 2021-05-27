@@ -4,6 +4,8 @@ import { Profile } from './user';
 interface LoginForm {
     username: string;
     password: string;
+    captcha: string;
+    remember: boolean
 }
 
 export { LoginForm };

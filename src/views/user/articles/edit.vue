@@ -1,6 +1,6 @@
 <template>
     <div class="editor">
-        <Editor></Editor>
+        <Editor />
     </div>
 </template>
 
