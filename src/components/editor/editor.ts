@@ -11,7 +11,6 @@ import { history } from '@codemirror/history';
 import { defaultHighlightStyle } from '@codemirror/highlight';
 import { searchKeymap } from '@codemirror/search';
 import { closeBracketsKeymap, closeBrackets } from '@codemirror/closebrackets';
-import './themes/editor.less';
 import { indentUnit } from '@codemirror/language';
 import defaultTheme from './theme.default';
 import keyboardShortcuts from './keyboard-shortcuts';
