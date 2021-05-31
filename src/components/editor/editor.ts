@@ -105,7 +105,7 @@ class Editor {
 
     public betterTab({ state, dispatch }: EditorView) {
         const indent = this.defaultIndent;
-        if (state.selection.ranges.some((r) => !r.empty))
+        if (state.selection.ranges.some(r => !r.empty))
             return indentMore({ state, dispatch });
         dispatch(
             state.update(state.replaceSelection(indent), {
@@ -163,7 +163,7 @@ class Editor {
             return;
         }
         let cursor = this.cm.state.selection.main.head;
-        this.cm.dispatch({ selection: { anchor: (cursor += pos), head } });
+        this.cm.dispatch({ selection: { anchor: cursor += pos, head } });
     }
 
     focus(): void {
